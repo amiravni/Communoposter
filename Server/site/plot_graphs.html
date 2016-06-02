@@ -5,34 +5,55 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
+<style>
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+tr:hover{background-color:#f5f5f5}
+</style>
+
 </head>
 
 <body>
 
   <table>
-  <tr>
+  <tr style="border-bottom: 1px solid #ddd;">
+    <td></td>
     <td><b>Temp (cels)</b></td>
     <td><b>Humidity (%)</b></td>
     <td></td>
   </tr>
   <tr  id="level1">
-    <td> <div id="temp1" style="width: 250px; height: 250px;"></div></td>
-    <td><div id="humidity1" style="width: 250px; height: 250px;"></div></td>
+    <td><b>Level 1</b></td>
+    <td> <div id="temp1" style="width: 100px; height: 150px;"></div></td>
+    <td><div id="humidity1" style="width: 100px; height: 150px;"></div></td>
     <td><div id="fusion1">Fusion</div></td>
   </tr>
   <tr id="level2">
-    <td> <div id="temp2" style="width: 250px; height: 250px;"></div></td>
-    <td><div id="humidity2" style="width: 250px; height: 250px;"></div></td>
+    <td><b>Level 2</b></td>
+    <td> <div id="temp2" style="width: 100px; height: 150px;"></div></td>
+    <td><div id="humidity2" style="width: 100px; height: 150px;"></div></td>
     <td><div id="fusion2">Fusion</div></td>
   </tr>
   <tr id="level3">
-    <td> <div id="temp3" style="width: 250px; height: 250px;"></div></td>
-    <td><div id="humidity3" style="width: 250px; height: 250px;"></div></td>
+    <td><b>Level 3</b></td>
+    <td> <div id="temp3" style="width: 100px; height: 150px;"></div></td>
+    <td><div id="humidity3" style="width: 100px; height: 150px;"></div></td>
     <td><div id="fusion3">Fusion</div></td>
   </tr>
   <tr id="level4">
-    <td> <div id="temp4" style="width: 250px; height: 250px;"></div></td>
-    <td><div id="humidity4" style="width: 250px; height: 250px;"></div></td>
+    <td><b>Level 4</b></td>
+    <td> <div id="temp4" style="width: 100px; height: 150px;"></div></td>
+    <td><div id="humidity4" style="width: 100px; height: 150px;"></div></td>
     <td><div id="fusion4">Fusion</div></td>
   </tr>
 
@@ -105,24 +126,21 @@
     	  x: index, 
     	  y: temp2, 
     	  type: 'scatter',
-            xaxis: 'x2',
-            yaxis: 'y2'
+
     	};
     
     	var temp3_plot = {
     	  x: index, 
     	  y: temp3, 
     	  type: 'scatter',
-            xaxis: 'x3',
-            yaxis: 'y3'
+
     	};
     
     	var temp4_plot = {
     	  x: index, 
     	  y: temp4, 
     	  type: 'scatter',
-            xaxis: 'x4',
-            yaxis: 'y4'
+
     	};
     
     
@@ -136,31 +154,26 @@
     	  x: index, 
     	  y: humidity2, 
     	  type: 'scatter',
-            xaxis: 'x2',
-            yaxis: 'y2'
+
     	};
     
     	var humidity3_plot = {
     	  x: index, 
     	  y: humidity3, 
     	  type: 'scatter',
-            xaxis: 'x3',
-            yaxis: 'y3'
     	};
     
     	var humidity4_plot = {
     	  x: index, 
     	  y: humidity4, 
     	  type: 'scatter',
-            xaxis: 'x4',
-            yaxis: 'y4'
     	};
     
     
         var single_red_layout = {
           autosize: false,
-          width: 200,
-          height: 200,
+          width: 150,
+          height: 150,
           margin: {
             l: 20,
             r: 20,
@@ -173,8 +186,8 @@
         }
         var single_green_layout = {
           autosize: false,
-          width: 200,
-          height: 200,
+          width: 150,
+          height: 150,
           margin: {
             l: 20,
             r: 20,
@@ -185,29 +198,6 @@
           paper_bgcolor: '#ffffff',
           plot_bgcolor: '#ffffff'
         }
-
-
-            var layout = {
-              xaxis: {domain: [0, 0.20]},
-              yaxis2: {anchor: 'x2'},
-              xaxis2: {domain: [0.25, 0.45]},
-              yaxis3: {anchor: 'x3'},
-              xaxis3: {domain: [0.50, 0.70]},
-              yaxis4: {anchor: 'x4'},
-              xaxis4: {domain: [0.75, 1]},
-            };
-
-            var layout2 = {
-              xaxis: {domain: [0, 0.20]},
-              yaxis: {range: [20,70]},
-              yaxis2: {anchor: 'x2',range: [20,70]},
-              xaxis2: {domain: [0.25, 0.45]},
-              yaxis3: {anchor: 'x3',range: [20,70]},
-              xaxis3: {domain: [0.50, 0.70]},
-              yaxis4: {anchor: 'x4',range: [20,70]},
-              xaxis4: {domain: [0.75, 1]},
-            };
-    
 
 
             if (dist1[dist1.length-1] > 100) 
@@ -250,7 +240,7 @@
             {
                 $('#level4').css('background-color','#ff0000')
                 Plotly.newPlot('temp4', [temp4_plot],single_red_layout);
-                Plotly.newPlot('humidity1', [humidity4_plot],single_red_layout);
+                Plotly.newPlot('humidity4', [humidity4_plot],single_red_layout);
 
             } else {
                 $('#level4').css('background-color','#ffffff')
