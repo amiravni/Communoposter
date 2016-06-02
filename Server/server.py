@@ -33,6 +33,10 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.upadteComposterReadings(queryParsed)
         elif parsedParams.path == "/shouldOpenDoor":
             self.shouldOpenDoor(queryParsed)
+        elif parsedParams.path == "/openDoor":
+            self.openDoor(queryParsed)
+        elif parsedParams.path == "/closeDoor":
+            self.closeDoor(queryParsed)
         else:
            self.showWelcom(queryParsed)
 
@@ -67,6 +71,48 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.end_headers()
             
             self.wfile.write(str(mycomposter['door_status']))
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Error!")
+            self.wfile.close()
+
+    def openDoor(self,query):
+        try:
+            composter_id = int(query['composter_id'][0])
+            user_id = int(query['user_id'][0])
+            self.my_db_handler.composter_open_door(user_id,composter_id)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Thanks")
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Error!")
+            self.wfile.close()
+
+    def closeDoor(self,query):
+        try:
+            composter_id = int(query['composter_id'][0])
+            user_id = int(query['user_id'][0])
+            self.my_db_handler.composter_close_door(user_id,composter_id)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Thanks")
             self.wfile.close()
         except:
             traceback.print_exc(file=sys.stdout)
