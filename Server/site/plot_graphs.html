@@ -77,7 +77,6 @@
     	  x: index, 
     	  y: temp1, 
     	  type: 'scatter',
-        autoscale : true
     	};
     
     	var temp2_plot = {
@@ -172,11 +171,12 @@
     
             var layout = {
               xaxis: {domain: [0, 0.20]},
-              yaxis2: {anchor: 'x2'},
+              yaxis: {range: [20,70]},
+              yaxis2: {anchor: 'x2',range: [20,70]},
               xaxis2: {domain: [0.25, 0.45]},
-              yaxis3: {anchor: 'x3'},
+              yaxis3: {anchor: 'x3',range: [20,70]},
               xaxis3: {domain: [0.50, 0.70]},
-              yaxis4: {anchor: 'x4'},
+              yaxis4: {anchor: 'x4',range: [20,70]},
               xaxis4: {domain: [0.75, 1]},
             };
     

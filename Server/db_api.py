@@ -200,7 +200,7 @@ class db_handler():
     def update_composter_after_reading(self,composter_id,weight,up_door_status,down_door_status):
         t = (composter_id,)
          
-        self.sql_cursor.execute('UPDATE %s SET weight=%f,up_door_status=%d,down_door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,weight,up_door_status,down_door_status),t)
+        self.sql_cursor.execute('UPDATE %s SET weight=%f WHERE id=?'%(COMPOSTER_TBL_NAME,weight),t)
         self.sql_conn.commit()
 
     def composter_reading_update(self,composter_id,
