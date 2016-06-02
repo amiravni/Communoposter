@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 50%;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="compost_data"></div>
+    <script>
+	var x = document.getElementById("compost_data");
+     var current_iw = null;
+
+	function getLocation() {
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(showPosition);
+	    } else {
+	        x.innerHTML = "Geolocation is not supported by this browser.";
+	    }
+	}
+
+	function showPosition(position) {
+    		x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude; 
+	}
+
+      var map;
+      function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 23.4, lng: 34.2},
+          zoom: 8
+        });
+       
+
+	function addMarkers(composter) {
+           console.log(composter);
+        	var m = new google.maps.Marker({
+    	    	position: {lat: composter.lat,lng:composter.lon},
+	    	map: map,
+	    	title: 'Composter'
+		});
+		var constr = '<div id="content"><p>' + composter.description + '</p></dev>'
+        	var iw = new google.maps.InfoWindow({content : constr });
+		m.addListener('click',function() {
+                if (current_iw != null)
+                {
+                    current_iw.close();
+                }
+			iw.open(map,m);
+                current_iw = iw;
+                $("#compost_data").html('<div id="compost_info"><div id="description">Description:<p>' +  composter.description +' </p></div></div>')
+		});
+
+	}
+
+    	$.getJSON('getCompostersJson', function(result){
+		result.forEach(addMarkers);
+    	});
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUvY8G486XWmgJG-3c0SbIwDC27h4Hnio&callback=initMap" async defer></script>
+    
+  </body>
+</html>

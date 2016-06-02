@@ -13,8 +13,10 @@ db_con = db_handler()
 
 db_con.insert_user('the dude','thedude','mypassword')
 db_con.insert_user('the other dude','theotherdude','mypassword')
-myuser = db_con.get_user_by_username('thedude')
+db_con.insert_user('Yo-tam','yotamp','bestpassword')
 
+myuser = db_con.get_user_by_username('thedude')
+yotam_user = db_con.get_user_by_username('yotamp')
 mycomposter =db_con.get_composters_by_id(1)
 print myuser
 """
@@ -23,6 +25,15 @@ db_con.insert_composter(myuser['id'],
                          32.142,
                          34.512,
                          "My composter is the best",
+                         1043.12,
+                         db_api.COMPOSTER_DOOR_STATUS_CLOSED,
+                         time.time())
+
+db_con.insert_composter(yotam_user['id'],
+                         db_api.COMPOSTER_STATUS_READY_TO_PUT,
+                         32.142,
+                         34.612,
+                         "This is yotams composter Dont TOUCH!!",
                          1043.12,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())

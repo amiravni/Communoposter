@@ -152,7 +152,8 @@ class db_handler():
             return False
         self.sql_cursor.execute('INSERT INTO %s (name,username,password,score) VALUES (\'%s\',\'%s\',\'%s\',%f)' % (USERS_TBL_NAME,
                                 name,username,password,0.0))
-    
+        self.sql_conn.commit()
+
     def update_user_score(self,user_id,score):
         t = (user_id,)
         self.sql_cursor.execute('UPDATE %s SET score=%f WHERE id=?'%(USERS_TBL_NAME,score),t)
@@ -168,7 +169,8 @@ class db_handler():
                          door_status,
                          last_interaction):
         self.sql_cursor.execute('INSERT INTO %s (user_id,status,lat,lon,description,temp, humidity, weight,max_weight,door_status,last_interaction) VALUES (%d,%d,%f,%f,\'%s\',0,0,0,%f,%d,%f)' % (COMPOSTER_TBL_NAME,user_id,status,lat,lon,desc,max_weight,door_status,last_interaction))
-    
+        self.sql_conn.commit()
+
     def update_composter_after_deposit(self,composter_id,weight,status):
         t = (composter_id,)
         self.sql_cursor.execute('UPDATE %s SET weight=%f,status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,weight,status),t)
@@ -180,6 +182,7 @@ class db_handler():
         self.update_composter_after_deposit(composter_id,mycomposter['weight']+weight,mycomposter['composter_status'])
         self.update_user_score(myuser['id'],myuser['score'] + weight)
         self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,weight))
+        self.sql_conn.commit()
 
     def update_composter_after_withdraw(self,composter_id,weight,status):
         t = (composter_id,)
@@ -192,6 +195,7 @@ class db_handler():
         self.update_composter_after_withdraw(composter_id,mycomposter['weight']-weight,mycomposter['composter_status'])
         self.update_user_score(myuser['id'],myuser['score'] - weight)
         self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,weight))
+        self.sql_conn.commit()
 
 
     
