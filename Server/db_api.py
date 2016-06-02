@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jun  2 11:11:14 2016
-
-@author: ubuser
-"""
 
 import sqlite3
 
@@ -47,8 +41,9 @@ class db_handler():
                 'temp' : row[6],
                 'humidity' : row[7],
                 'weight' : row[8],
-                'door_status' : row[9],
-                'last_interation' : row[10]
+                'max_weight': row[9],
+                'door_status' : row[10],
+                'last_interation' : row[11]
             })
         
         return composters
@@ -69,8 +64,9 @@ class db_handler():
                 'temp' : row[6],
                 'humidity' : row[7],
                 'weight' : row[8],
-                'door_status' : row[9],
-                'last_interation' : row[10]
+                'max_weight': row[9],
+                'door_status' : row[10],
+                'last_interation' : row[11]
             })
         
         return composters
@@ -92,8 +88,9 @@ class db_handler():
                 'temp' : row[6],
                 'humidity' : row[7],
                 'weight' : row[8],
-                'door_status' : row[9],
-                'last_interation' : row[10]
+                'max_weight': row[9],
+                'door_status' : row[10],
+                'last_interation' : row[11]
             })
         if len(composters) > 0:
             return composters[0]

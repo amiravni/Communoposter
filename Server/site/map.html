@@ -45,14 +45,43 @@
         });
        
 
+        //0
+        var ready_to_take_image_icon = 'http://www.megaicons.net/static/img/icons_sizes/401/1203/32/dumpster-diving-icon.png';
+        //2
+        var ready_to_put_image = 'http://www.megaicons.net/static/img/icons_sizes/486/2080/32/system-recycle-bin-empty-icon.png';
+        //1            
+        var do_not_touch_image = 'http://www.tkdocs.com/images/closeicon.png';
+
+
 	function addMarkers(composter) {
+            var cur_icon = '';
            console.log(composter);
+            if (composter.composter_status == 0){
+                cur_icon = ready_to_take_image_icon
+            } else if (composter.composter_status == 1){
+                cur_icon = do_not_touch_image;
+            } else {
+                cur_icon = ready_to_put_image;
+            }
+
+/*
+            var image = {
+                url: cur_icon,
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(32, 32),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32)
+              };
+*/
         	var m = new google.maps.Marker({
-    	    	position: {lat: composter.lat,lng:composter.lon},
-	    	map: map,
-	    	title: 'Composter'
-		});
-		var constr = '<div id="content"><p>' + composter.description + '</p></dev>'
+        	    	position: {lat: composter.lat,lng:composter.lon},
+        	    	map: map,
+        	    	title: 'Composter',
+                icon: cur_icon
+        		});
+        		var constr = '<div id="content"><p>' + composter.description + '</p></dev>'
         	var iw = new google.maps.InfoWindow({content : constr });
 		m.addListener('click',function() {
                 if (current_iw != null)
@@ -61,7 +90,17 @@
                 }
 			iw.open(map,m);
                 current_iw = iw;
-                $("#compost_data").html('<div id="compost_info"><div id="description">Description:<p>' +  composter.description +' </p></div></div>')
+                compost_data_html = '<div id="compost_info">'
+                compost_data_html += '<div id="description"><b>Description:</b><p>' +  composter.description +' </p></div>'
+                compost_data_html += '<div id="temp"><b>Temperature:</b><p>' +  composter.temp +' </p></div>'
+                compost_data_html += '<div id="humidity"><b>humidity:</b><p>' +  composter.humidity +' </p></div>'
+                compost_data_html += '<div id="weight"><b>weight:</b><p>' +  composter.weight +' </p></div>'
+                compost_data_html += '<div id="door_status"><b>door status:</b><p>' +  composter.door_status +' </p></div>'
+                compost_data_html += '<div id="compost_status"><b>compost status:</b><p>' +  composter.composter_status +' </p></div>'
+                compost_data_html += '</div>'
+
+                $("#compost_data").html(compost_data_html)
+
 		});
 
 	}

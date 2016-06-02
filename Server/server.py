@@ -45,8 +45,6 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(composters))
         self.wfile.close()
         
-    def getComposterData(self,composter_id)
-
 
     def showWelcom(self,query):
         self.send_response(200)
