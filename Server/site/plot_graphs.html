@@ -9,10 +9,27 @@
 
 <body>
 
-  <div id="temp" style="width: 800px; height: 400px;"><!-- Plotly chart will be drawn inside this DIV --></div>
-  <div id="humidity" style="width: 400px; height: 300px;"><!-- Plotly chart will be drawn inside this DIV --></div>
-  <div id="dist" style="width: 400px; height: 300px;"><!-- Plotly chart will be drawn inside this DIV --></div>
-
+  <table>
+  <tr  id="level1">
+    <td> <div id="temp1" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="humidity1" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="fusion1">Fusion</div></td>
+  </tr>
+  <tr id="level2">
+    <td> <div id="temp2" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="humidity2" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="fusion2">Fusion</div></td>
+  </tr>
+  <tr id="level3">
+    <td> <div id="temp3" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="humidity3" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="fusion3">Fusion</div></td>
+  </tr>
+  <tr id="level4">
+    <td> <div id="temp4" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="humidity4" style="width: 300px; height: 300px;"></div></td>
+    <td><div id="fusion4">Fusion</div></td>
+  </tr>
 
 
   <script>
@@ -135,41 +152,18 @@
     	};
     
     
-    	var dist1_plot = {
-    	  x: index, 
-    	  y: dist1, 
-    	  type: 'scatter'
-    	};
-    
-    	var dist2_plot = {
-    	  x: index, 
-    	  y: dist2, 
-    	  type: 'scatter',
-            xaxis: 'x2',
-            yaxis: 'y2'
-    	};
-    
-    	var dist3_plot = {
-    	  x: index, 
-    	  y: dist3, 
-    	  type: 'scatter',
-            xaxis: 'x3',
-            yaxis: 'y3'
-    	};
-    
-    	var dist4_plot = {
-    	  x: index, 
-    	  y: dist4, 
-    	  type: 'scatter',
-            xaxis: 'x4',
-            yaxis: 'y4'
-    	};
-    
-            var temp_data = [temp1_plot,temp2_plot,temp3_plot,temp4_plot]
-            var humidity_data = [humidity1_plot,humidity2_plot,humidity3_plot,humidity4_plot]
-            var dist_data = [dist1_plot,dist2_plot,dist3_plot,dist4_plot]
-    
+
             var layout = {
+              xaxis: {domain: [0, 0.20]},
+              yaxis2: {anchor: 'x2'},
+              xaxis2: {domain: [0.25, 0.45]},
+              yaxis3: {anchor: 'x3'},
+              xaxis3: {domain: [0.50, 0.70]},
+              yaxis4: {anchor: 'x4'},
+              xaxis4: {domain: [0.75, 1]},
+            };
+
+            var layout2 = {
               xaxis: {domain: [0, 0.20]},
               yaxis: {range: [20,70]},
               yaxis2: {anchor: 'x2',range: [20,70]},
@@ -180,16 +174,36 @@
               xaxis4: {domain: [0.75, 1]},
             };
     
-    
-    
-            Plotly.newPlot('temp', temp_data,layout);
-            Plotly.newPlot('humidity', humidity_data,layout);
-            Plotly.newPlot('dist', dist_data,layout);
+            Plotly.newPlot('temp1', [temp1_plot]);
+            Plotly.newPlot('temp2', [temp2_plot]);
+            Plotly.newPlot('temp3', [temp3_plot]);
+            Plotly.newPlot('temp4', [temp4_plot]);
+            Plotly.newPlot('humidity1', [humidity1_plot]);
+            Plotly.newPlot('humidity2', [humidity2_plot]);
+            Plotly.newPlot('humidity3', [humidity3_plot]);
+            Plotly.newPlot('humidity4', [humidity4_plot]);
 
+            if (dist1[dist1.length-1] > 100) 
+            {
+                $('#level1').css('background-color','#ff0000')
+            }
+            if (dist2[dist2.length-1] > 100) 
+            {
+                $('#level2').css('background-color','#ff0000')
+            }
+            if (dist3[dist3.length-1] > 100) 
+            {
+                $('#level3').css('background-color','#ff0000')
+            }
+            if (dist4[dist4.length-1] > 100) 
+            {
+                $('#level4').css('background-color','#ff0000')
+            }
     }
 
 
     }
+    getData();
     var t=setInterval(getData,5000);
 
   </script>
