@@ -64,12 +64,11 @@ class db_handler():
                 'lat' : row[3],
                 'lon' : row[4],
                 'description' : row[5],
-                'temp' : row[6],
-                'humidity' : row[7],
-                'weight' : row[8],
-                'max_weight': row[9],
-                'door_status' : row[10],
-                'last_interation' : row[11]
+                'weight' : row[6],
+                'max_weight': row[7],
+                'up_door_status' : row[8],
+                'down_door_status' : row[9],
+                'last_interation' : row[10]
             })
         
         return composters
@@ -88,12 +87,11 @@ class db_handler():
                 'lat' : row[3],
                 'lon' : row[4],
                 'description' : row[5],
-                'temp' : row[6],
-                'humidity' : row[7],
-                'weight' : row[8],
-                'max_weight': row[9],
-                'door_status' : row[10],
-                'last_interation' : row[11]
+                'weight' : row[6],
+                'max_weight': row[7],
+                'up_door_status' : row[8],
+                'down_door_status' : row[9],
+                'last_interation' : row[10]
             })
         if len(composters) > 0:
             return composters[0]
@@ -166,9 +164,10 @@ class db_handler():
                          lon,
                          desc,
                          max_weight,
-                         door_status,
+                         up_door_status,
+                         down_door_status,
                          last_interaction):
-        self.sql_cursor.execute('INSERT INTO %s (user_id,status,lat,lon,description,temp, humidity, weight,max_weight,door_status,last_interaction) VALUES (%d,%d,%f,%f,\'%s\',0,0,0,%f,%d,%f)' % (COMPOSTER_TBL_NAME,user_id,status,lat,lon,desc,max_weight,door_status,last_interaction))
+        self.sql_cursor.execute('INSERT INTO %s (user_id,status,lat,lon,description,weight,max_weight,up_door_status,down_door_status,last_interaction) VALUES (%d,%d,%f,%f,\'%s\',0,%f,%d,%d,%f)' % (COMPOSTER_TBL_NAME,user_id,status,lat,lon,desc,max_weight,up_door_status,down_door_status,last_interaction))
         self.sql_conn.commit()
 
     def update_composter_after_deposit(self,composter_id,weight,status):
@@ -198,25 +197,54 @@ class db_handler():
         self.sql_conn.commit()
 
 
-    def update_composter_after_reading(self,composter_id,temp,humidity,door_status,weight):
+    def update_composter_after_reading(self,composter_id,weight,up_door_status,down_door_status):
         t = (composter_id,)
-        self.sql_cursor.execute('UPDATE %s SET temp=%f,humidity=%f,weight=%f,door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,temp,humidity,weight,door_status),t)
+         
+        self.sql_cursor.execute('UPDATE %s SET weight=%f,up_door_status=%d,down_door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,weight,up_door_status,down_door_status),t)
         self.sql_conn.commit()
 
-    def composter_reading_update(self,composter_id,temp,humidity,weight,door_status):
-
-        self.update_composter_after_reading(composter_id,temp,humidity,weight,door_status)
-
-        self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp,humidity,weight,door_status) VALUES (%d,%f,%f,%f,%f,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time.time(),temp,humidity,weight,door_status))        
-        self.sql_conn.commit()
+    def composter_reading_update(self,composter_id,
+                                 temp1,temp2,temp3,temp4,
+                                 humidity1,humidity2,humidity3,humidity4,
+                                 dist1,dist2,dist3,dist4
+                                 ,weight,
+                                 up_door_status,down_door_status):
+        #temp = (temp1 + temp2 + temp3+ temp4) / 4.0
+        #humidity = (humidity1 + humidity2 + humidity3 + humidity4)
         
+        self.update_composter_after_reading(composter_id,weight,up_door_status,down_door_status)
+
+        self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status) VALUES (%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status))        
+        self.sql_conn.commit()
+
+    def composter_get_last_readings(self,composter_id,count):
+        composters = []
+        t = (composter_id,count)
+        self.sql_cursor.execute('SELECT * FROM %s WHERE user_id=? LIMIT ?'%COMPOSTER_READINGS_TBL_NAME, t)
+        rows = self.sql_cursor.fetchall()
+        
+
+        for row in rows:
+            composters.append({
+                'id' : row[0],
+                'time' : row[1],
+                'temp' : row[2:6],
+                'humidity' : row[6:10],
+                'dist' : row[10:14],
+                'weight' : row[14],
+                'up_door_status' : row[15],
+                'down_door_status' : row[16]
+            })
+        
+        return composters
+
 
 ########################
 #   Open/Close  door   #
 ########################
     def update_composter_door_status(self,composter_id,door_status):
         t = (composter_id,)
-        self.sql_cursor.execute('UPDATE %s SET door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,door_status),t)
+        self.sql_cursor.execute('UPDATE %s SET up_door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,door_status),t)
 
     def update_composter_after_open_door(self,composter_id):
         self.update_composter_door_status(composter_id,COMPOSTER_DOOR_STATUS_OPENED)
