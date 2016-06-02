@@ -7,10 +7,16 @@ import traceback
 
 PORT = int(sys.argv[1])
 
+
+
 class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     
     my_db_handler = db_handler()
     
+    def setup(self):
+        "Sets a timeout on the socket"
+        self.request.settimeout(10)
+        SimpleHTTPServer.SimpleHTTPRequestHandler.setup(self)
     
     def do_GET(self):
     
@@ -23,12 +29,12 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
            self.showMap(queryParsed)
         elif parsedParams.path == "/getCompostersJson":
             self.getCompostersJson()
-        elif parsedParams.path == "/upadteComposterReadings":
+        elif parsedParams.path == "/updateComposterReadings":
             self.upadteComposterReadings(queryParsed)
         else:
            self.showWelcom(queryParsed)
 
-       
+   
     def showMap(self,query):
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
@@ -82,7 +88,8 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 Handler = MyHandler
 
-httpd = SocketServer.TCPServer(("", PORT), Handler)
+httpd = SocketServer.TCPServer(("", PORT), Handler, bind_and_activate=True)
+httpd.allow_reuse_address = True
 
 print "serving at port", PORT
 httpd.serve_forever()

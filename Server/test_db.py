@@ -51,6 +51,16 @@ db_con.insert_composter(dani_user['id'],
                          time.time())
 """
 
+db_con.insert_composter(yotam_user['id'],
+                         db_api.COMPOSTER_STATUS_READY_TO_PUT,
+                         32.142,
+                         34.812,
+                         "This is yotams composter Dont TOUCH!!",
+                         1043.12,
+                         db_api.COMPOSTER_DOOR_STATUS_CLOSED,
+                         time.time())
+
+
 print "#"*50
 print 'Users'
 print "#"*50
