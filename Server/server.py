@@ -34,10 +34,14 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.upadteComposterReadings(queryParsed)
         elif parsedParams.path == "/shouldOpenDoor":
             self.shouldOpenDoor(queryParsed)
-        elif parsedParams.path == "/openDoor":
-            self.openDoor(queryParsed)
-        elif parsedParams.path == "/closeDoor":
-            self.closeDoor(queryParsed)
+        elif parsedParams.path == "/openUpDoor":
+            self.openUpDoor(queryParsed)
+        elif parsedParams.path == "/closeUpDoor":
+            self.closeUpDoor(queryParsed)
+        elif parsedParams.path == "/openDownDoor":
+            self.openDownDoor(queryParsed)
+        elif parsedParams.path == "/closeDownDoor":
+            self.closeDownDoor(queryParsed)
         elif parsedParams.path == "/getCompostReadings":
             self.getCompostReadings(queryParsed)
         elif parsedParams.path == "/plotCompostData":
@@ -87,11 +91,11 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write("Error!")
             self.wfile.close()
 
-    def openDoor(self,query):
+    def openUpDoor(self,query):
         try:
             composter_id = int(query['composter_id'][0])
             user_id = int(query['user_id'][0])
-            self.my_db_handler.composter_open_door(user_id,composter_id)
+            self.my_db_handler.composter_open_up_door(user_id,composter_id)
             
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
@@ -108,11 +112,53 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write("Error!")
             self.wfile.close()
 
-    def closeDoor(self,query):
+    def closeUpDoor(self,query):
         try:
             composter_id = int(query['composter_id'][0])
             user_id = int(query['user_id'][0])
-            self.my_db_handler.composter_close_door(user_id,composter_id)
+            self.my_db_handler.composter_close_up_door(user_id,composter_id)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Thanks")
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Error!")
+            self.wfile.close()
+
+    def openDownDoor(self,query):
+        try:
+            composter_id = int(query['composter_id'][0])
+            user_id = int(query['user_id'][0])
+            self.my_db_handler.composter_open_down_door(user_id,composter_id)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Thanks")
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Error!")
+            self.wfile.close()
+
+    def closeDownDoor(self,query):
+        try:
+            composter_id = int(query['composter_id'][0])
+            user_id = int(query['user_id'][0])
+            self.my_db_handler.composter_close_down_door(user_id,composter_id)
             
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')

@@ -241,31 +241,56 @@ class db_handler():
 
 
 ########################
-#   Open/Close  door   #
+#   Open/Close  up door   #
 ########################
-    def update_composter_door_status(self,composter_id,door_status):
+    def update_composter_up_door_status(self,composter_id,door_status):
         t = (composter_id,)
         self.sql_cursor.execute('UPDATE %s SET up_door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,door_status),t)
 
-    def update_composter_after_open_door(self,composter_id):
-        self.update_composter_door_status(composter_id,COMPOSTER_DOOR_STATUS_OPENED)
+    def update_composter_after_open_up_door(self,composter_id):
+        self.update_composter_up_door_status(composter_id,COMPOSTER_DOOR_STATUS_OPENED)
 
-    def update_composter_after_close_door(self,composter_id):
-        self.update_composter_door_status(composter_id,COMPOSTER_DOOR_STATUS_CLOSED)
+    def update_composter_after_close_up_door(self,composter_id):
+        self.update_composter_up_door_status(composter_id,COMPOSTER_DOOR_STATUS_CLOSED)
 
         
-    def composter_open_door(self,user_id,composter_id):
-        self.update_composter_after_open_door(composter_id)
+    def composter_open_up_door(self,user_id,composter_id):
+        self.update_composter_after_open_up_door(composter_id)
         self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,0))
         self.sql_conn.commit()
 
 
-    def composter_close_door(self,user_id,composter_id):
-        self.update_composter_after_close_door(composter_id)
+    def composter_close_up_door(self,user_id,composter_id):
+        self.update_composter_after_close_up_door(composter_id)
         self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,0))
         self.sql_conn.commit()
 
-    
+########################
+#   Open/Close  down door   #
+########################
+    def update_composter_down_door_status(self,composter_id,door_status):
+        t = (composter_id,)
+        self.sql_cursor.execute('UPDATE %s SET down_door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,door_status),t)
+
+    def update_composter_after_open_down_door(self,composter_id):
+        self.update_composter_down_door_status(composter_id,COMPOSTER_DOOR_STATUS_OPENED)
+
+    def update_composter_after_close_down_door(self,composter_id):
+        self.update_composter_down_door_status(composter_id,COMPOSTER_DOOR_STATUS_CLOSED)
+
+        
+    def composter_open_down_door(self,user_id,composter_id):
+        self.update_composter_after_open_down_door(composter_id)
+        self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,0))
+        self.sql_conn.commit()
+
+
+    def composter_close_down_door(self,user_id,composter_id):
+        self.update_composter_after_close_down_door(composter_id)
+        self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,0))
+        self.sql_conn.commit()
+        
+        
     def close(self):
         self.sql_conn.commit()
         self.sql_conn.close()
