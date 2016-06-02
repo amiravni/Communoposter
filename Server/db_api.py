@@ -219,12 +219,11 @@ class db_handler():
     def composter_get_last_readings(self,composter_id):
         composters = []
         t = (composter_id,)
-        self.sql_cursor.execute('SELECT * FROM %s WHERE composter_id=?'%COMPOSTER_READINGS_TBL_NAME, t)
+        self.sql_cursor.execute('SELECT * FROM %s WHERE composter_id=? ORDER BY id DESC LIMIT 50'%COMPOSTER_READINGS_TBL_NAME, t)
         rows = self.sql_cursor.fetchall()
         
 
         for row in rows:
-            print row
             composters.append({
                 'id' : row[0],
                 'composter_id' : row[1],
@@ -236,7 +235,8 @@ class db_handler():
                 'up_door_status' : row[16],
                 'down_door_status' : row[17]
             })
-        
+        composters.reverse()
+
         return composters
 
 
