@@ -8,6 +8,7 @@ Created on Thu Jun  2 11:25:54 2016
 import db_api
 from db_api import db_handler
 import time
+import random
 
 db_con = db_handler()
 
@@ -39,7 +40,7 @@ db_con.insert_composter(yotam_user['id'],
                          1043.12,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())
-"""
+
 db_con.insert_composter(dani_user['id'],
                          db_api.COMPOSTER_STATUS_READY_TO_TAKE,
                          32.142,
@@ -48,7 +49,7 @@ db_con.insert_composter(dani_user['id'],
                          1043.12,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())
-
+"""
 
 print "#"*50
 print 'Users'
@@ -63,6 +64,7 @@ print 'user %s composters' % myuser['name']
 print "#"*50
 print db_con.get_composters_by_user_id(myuser['id'])
 if mycomposter is not None:
+    db_con.composter_reading_update(mycomposter['id'],random.random()*37,random.random()*100,random.random()*2,0)
     db_con.composter_deposit(myuser['id'],mycomposter['id'],0.53)
     db_con.composter_withdraw(myuser['id'],mycomposter['id'],0.06)
 

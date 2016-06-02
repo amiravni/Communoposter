@@ -1,5 +1,6 @@
 
 import sqlite3
+import time
 
 COMPOSTER_TBL_NAME  = "composters"
 COMPOSTER_STATUS_READY_TO_TAKE = 0
@@ -11,6 +12,8 @@ COMPOSTER_DOOR_STATUS_OPENED = 1
 COMPOSTER_TRANSACTIONS_TBL_NAME = 'user_composer_transactions'
 COMPOSTER_TRANSACTIONS_TYPE_WITHDRAW = 0
 COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT = 1
+
+COMPOSTER_READINGS_TBL_NAME = "composter_readings"
 
 USERS_TBL_NAME = "users"
 
@@ -170,7 +173,7 @@ class db_handler():
 
     def update_composter_after_deposit(self,composter_id,weight,status):
         t = (composter_id,)
-        self.sql_cursor.execute('UPDATE %s SET weight=%f,status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,weight,status),t)
+        self.sql_cursor.execute('UPDATE %s SET weight=%f,status=%d,last_interaction=%f WHERE id=?'%(COMPOSTER_TBL_NAME,weight,status,time.time()),t)
         self.sql_conn.commit()
     
     def composter_deposit(self,user_id,composter_id,weight):
@@ -183,7 +186,7 @@ class db_handler():
 
     def update_composter_after_withdraw(self,composter_id,weight,status):
         t = (composter_id,)
-        self.sql_cursor.execute('UPDATE %s SET weight=%f,status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,weight,status),t)
+        self.sql_cursor.execute('UPDATE %s SET weight=%f,status=%d,last_interaction=%f WHERE id=?'%(COMPOSTER_TBL_NAME,weight,status,time.time()),t)
         self.sql_conn.commit()
     
     def composter_withdraw(self,user_id,composter_id,weight):
@@ -193,6 +196,20 @@ class db_handler():
         self.update_user_score(myuser['id'],myuser['score'] - weight)
         self.sql_cursor.execute('INSERT INTO %s (user_id,composter_id,transaction_type,weight) VALUES (%d,%d,%d,%f)' % (COMPOSTER_TRANSACTIONS_TBL_NAME,user_id,composter_id,COMPOSTER_TRANSACTIONS_TYPE_DEPOSIT,weight))
         self.sql_conn.commit()
+
+
+    def update_composter_after_reading(self,composter_id,temp,humidity,door_status,weight):
+        t = (composter_id,)
+        self.sql_cursor.execute('UPDATE %s SET temp=%f,humidity=%f,weight=%f,door_status=%d WHERE id=?'%(COMPOSTER_TBL_NAME,temp,humidity,weight,door_status),t)
+        self.sql_conn.commit()
+
+    def composter_reading_update(self,composter_id,temp,humidity,weight,door_status):
+
+        self.update_composter_after_reading(composter_id,temp,humidity,weight,door_status)
+
+        self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp,humidity,weight,door_status) VALUES (%d,%f,%f,%f,%f,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time.time(),temp,humidity,weight,door_status))        
+        self.sql_conn.commit()
+        
 
 
     

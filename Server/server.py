@@ -3,6 +3,7 @@ import urlparse
 import sys
 from db_api import db_handler
 import json
+import traceback
 
 PORT = int(sys.argv[1])
 
@@ -22,6 +23,8 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
            self.showMap(queryParsed)
         elif parsedParams.path == "/getCompostersJson":
             self.getCompostersJson()
+        elif parsedParams.path == "/upadteComposterReadings":
+            self.upadteComposterReadings(queryParsed)
         else:
            self.showWelcom(queryParsed)
 
@@ -45,6 +48,28 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(composters))
         self.wfile.close()
         
+    def upadteComposterReadings(self,query):
+        print query
+        try:
+            composter_id = int(query['id'][0])
+            temp = float(query['temp'][0])
+            humidity = float(query['humidity'][0])
+            door_status = int(query['door_status'][0])
+            weight = float(query['weight'][0])
+            self.my_db_handler.composter_reading_update(composter_id,temp,humidity,door_status,weight)
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write("Thanks")
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            self.wfile.write("Error!")
+            self.wfile.close()
 
     def showWelcom(self,query):
         self.send_response(200)

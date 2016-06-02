@@ -39,6 +39,11 @@ try:
                  user_id INT, composter_id INT, transaction_type INT, weight FLOAT )''')
                  
 
+    sql_cursor.execute('''CREATE TABLE composter_readings
+                 (id Integer PRIMARY KEY AUTOINCREMENT,
+                 composter_id INT, time DOUBLE , temp FLOAT ,humidity FLOAT,weight FLOAT,door_status FLOAT )''')
+
+
 except lite.Error, e:
     
     print "Error %s:" % e.args[0]
