@@ -10,24 +10,29 @@
 <body>
 
   <table>
+  <tr>
+    <td><b>Temp (cels)</b></td>
+    <td><b>Humidity (%)</b></td>
+    <td></td>
+  </tr>
   <tr  id="level1">
-    <td> <div id="temp1" style="width: 300px; height: 300px;"></div></td>
-    <td><div id="humidity1" style="width: 300px; height: 300px;"></div></td>
+    <td> <div id="temp1" style="width: 250px; height: 250px;"></div></td>
+    <td><div id="humidity1" style="width: 250px; height: 250px;"></div></td>
     <td><div id="fusion1">Fusion</div></td>
   </tr>
   <tr id="level2">
-    <td> <div id="temp2" style="width: 300px; height: 300px;"></div></td>
-    <td><div id="humidity2" style="width: 300px; height: 300px;"></div></td>
+    <td> <div id="temp2" style="width: 250px; height: 250px;"></div></td>
+    <td><div id="humidity2" style="width: 250px; height: 250px;"></div></td>
     <td><div id="fusion2">Fusion</div></td>
   </tr>
   <tr id="level3">
-    <td> <div id="temp3" style="width: 300px; height: 300px;"></div></td>
-    <td><div id="humidity3" style="width: 300px; height: 300px;"></div></td>
+    <td> <div id="temp3" style="width: 250px; height: 250px;"></div></td>
+    <td><div id="humidity3" style="width: 250px; height: 250px;"></div></td>
     <td><div id="fusion3">Fusion</div></td>
   </tr>
   <tr id="level4">
-    <td> <div id="temp4" style="width: 300px; height: 300px;"></div></td>
-    <td><div id="humidity4" style="width: 300px; height: 300px;"></div></td>
+    <td> <div id="temp4" style="width: 250px; height: 250px;"></div></td>
+    <td><div id="humidity4" style="width: 250px; height: 250px;"></div></td>
     <td><div id="fusion4">Fusion</div></td>
   </tr>
 
@@ -152,6 +157,35 @@
     	};
     
     
+        var single_red_layout = {
+          autosize: false,
+          width: 200,
+          height: 200,
+          margin: {
+            l: 20,
+            r: 20,
+            b: 20,
+            t: 20,
+            pad: 0
+          },
+          paper_bgcolor: '#ff0000',
+          plot_bgcolor: '#ff0000'
+        }
+        var single_green_layout = {
+          autosize: false,
+          width: 200,
+          height: 200,
+          margin: {
+            l: 20,
+            r: 20,
+            b: 20,
+            t: 20,
+            pad: 0
+          },
+          paper_bgcolor: '#ffffff',
+          plot_bgcolor: '#ffffff'
+        }
+
 
             var layout = {
               xaxis: {domain: [0, 0.20]},
@@ -174,39 +208,54 @@
               xaxis4: {domain: [0.75, 1]},
             };
     
-            Plotly.newPlot('temp1', [temp1_plot]);
-            Plotly.newPlot('temp2', [temp2_plot]);
-            Plotly.newPlot('temp3', [temp3_plot]);
-            Plotly.newPlot('temp4', [temp4_plot]);
-            Plotly.newPlot('humidity1', [humidity1_plot]);
-            Plotly.newPlot('humidity2', [humidity2_plot]);
-            Plotly.newPlot('humidity3', [humidity3_plot]);
-            Plotly.newPlot('humidity4', [humidity4_plot]);
+
 
             if (dist1[dist1.length-1] > 100) 
             {
                 $('#level1').css('background-color','#ff0000')
-            } else {
-                $('#level1').css('background-color','#000000')
+                Plotly.newPlot('temp1', [temp1_plot],single_red_layout);
+                Plotly.newPlot('humidity1', [humidity1_plot],single_red_layout);
 
+            } else {
+                $('#level1').css('background-color','#ffffff')
+                Plotly.newPlot('temp1', [temp1_plot],single_green_layout);
+                Plotly.newPlot('humidity1', [humidity1_plot],single_green_layout);
             }
+
             if (dist2[dist2.length-1] > 100) 
             {
                 $('#level2').css('background-color','#ff0000')
+                Plotly.newPlot('temp2', [temp2_plot],single_red_layout);
+                Plotly.newPlot('humidity2', [humidity2_plot],single_red_layout);
+
             } else {
-                $('#level2').css('background-color','#000000')
+                $('#level2').css('background-color','#ffffff')
+                Plotly.newPlot('temp2', [temp2_plot],single_green_layout);
+                Plotly.newPlot('humidity2', [humidity2_plot],single_green_layout);
             }
-            if (dist3[dist3.length-1] > 100) 
+
+            if (dist1[dist3.length-1] > 100) 
             {
                 $('#level3').css('background-color','#ff0000')
+                Plotly.newPlot('temp3', [temp3_plot],single_red_layout);
+                Plotly.newPlot('humidity3', [humidity3_plot],single_red_layout);
+
             } else {
-                $('#level3').css('background-color','#000000')
+                $('#level3').css('background-color','#ffffff')
+                Plotly.newPlot('temp3', [temp3_plot],single_green_layout);
+                Plotly.newPlot('humidity3', [humidity3_plot],single_green_layout);
             }
+
             if (dist4[dist4.length-1] > 100) 
             {
                 $('#level4').css('background-color','#ff0000')
+                Plotly.newPlot('temp4', [temp4_plot],single_red_layout);
+                Plotly.newPlot('humidity1', [humidity4_plot],single_red_layout);
+
             } else {
-                $('#level4').css('background-color','#000000')
+                $('#level4').css('background-color','#ffffff')
+                Plotly.newPlot('temp4', [temp4_plot],single_green_layout);
+                Plotly.newPlot('humidity4', [humidity4_plot],single_green_layout);
             }
     }
 
