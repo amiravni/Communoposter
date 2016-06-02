@@ -92,11 +92,11 @@
                 current_iw = iw;
                 compost_data_html = '<div id="compost_info">'
                 compost_data_html += '<div id="description"><b>Description:</b><p>' +  composter.description +' </p></div>'
-                compost_data_html += '<div id="temp"><b>Temperature:</b><p>' +  composter.temp +' </p></div>'
-                compost_data_html += '<div id="humidity"><b>humidity:</b><p>' +  composter.humidity +' </p></div>'
                 compost_data_html += '<div id="weight"><b>weight:</b><p>' +  composter.weight +' </p></div>'
-                compost_data_html += '<div id="door_status"><b>door status:</b><p>' +  composter.door_status +' </p></div>'
+                compost_data_html += '<div id="door_status"><b>up door status:</b><p>' +  composter.up_door_status +' </p></div>'
+                compost_data_html += '<div id="door_status"><b>down door status:</b><p>' +  composter.down_door_status +' </p></div>'
                 compost_data_html += '<div id="compost_status"><b>compost status:</b><p>' +  composter.composter_status +' </p></div>'
+		compost_data_html += '<div id="compost_live_data_link"><b><a href=plotCompostData?id='+ composter.id + '>Live view</a></b>'
                 compost_data_html += '</div>'
 
                 $("#compost_data").html(compost_data_html)
