@@ -224,15 +224,17 @@ class db_handler():
         
 
         for row in rows:
+            print row
             composters.append({
                 'id' : row[0],
-                'time' : row[1],
-                'temp' : row[2:6],
-                'humidity' : row[6:10],
-                'dist' : row[10:14],
-                'weight' : row[14],
-                'up_door_status' : row[15],
-                'down_door_status' : row[16]
+                'composter_id' : row[1],
+                'time' : row[2],
+                'temp' : row[3:7],
+                'humidity' : row[7:11],
+                'dist' : row[11:15],
+                'weight' : row[15],
+                'up_door_status' : row[16],
+                'down_door_status' : row[17]
             })
         
         return composters

@@ -18,132 +18,178 @@
   <script>
 
 
-    var time = [];
 
-    var index = [];
-
-    var temp1 = [];
-    var temp2 = [];
-    var temp3 = [];
-    var temp4 = [];
-
-    var humidity1 = [];
-    var humidity2 = [];
-    var humidity3 = [];
-    var humidity4 = [];
-
-    var dist1 = [];
-    var dist2 = [];
-    var dist3 = [];
-    var dist4 = [];
-
-    function collect_data(reading_data)
+    function getData()
     {
-        console.log(reading_data);
-
-        time[time.length] = reading_data.time;
-        index[index.length] = index.length;
-
-        temp1[temp1.length] = reading_data.temp[0];
-        temp2[temp2.length] = reading_data.temp[1];
-        temp3[temp3.length] = reading_data.temp[2];
-        temp4[temp4.length] = reading_data.temp[3];
-
-        humidity1[humidity1] = reading_data.humidity[0];
-        humidity2[humidity2] = reading_data.humidity[1];
-        humidity3[humidity3] = reading_data.humidity[2];
-        humidity4[humidity4] = reading_data.humidity[3];
-
-        dist1[dist1.length] = reading_data.dist[0];
-        dist2[dist2.length] = reading_data.dist[1];
-        dist3[dist3.length] = reading_data.dist[2];
-        dist4[dist4.length] = reading_data.dist[3];
+        var time = [];
+    
+        var index = [];
+    
+        var temp1 = [];
+        var temp2 = [];
+        var temp3 = [];
+        var temp4 = [];
+    
+        var humidity1 = [];
+        var humidity2 = [];
+        var humidity3 = [];
+        var humidity4 = [];
+    
+        var dist1 = [];
+        var dist2 = [];
+        var dist3 = [];
+        var dist4 = [];
+    
+        function collect_data(reading_data)
+        {    
+            time[time.length] = reading_data.time;
+            index[index.length] = index.length;
+    
+            temp1[temp1.length] = reading_data.temp[0];
+            temp2[temp2.length] = reading_data.temp[1];
+            temp3[temp3.length] = reading_data.temp[2];
+            temp4[temp4.length] = reading_data.temp[3];
+    
+            humidity1[humidity1.length] = reading_data.humidity[0];
+            humidity2[humidity2.length] = reading_data.humidity[1];
+            humidity3[humidity3.length] = reading_data.humidity[2];
+            humidity4[humidity4.length] = reading_data.humidity[3];
+    
+            dist1[dist1.length] = reading_data.dist[0];
+            dist2[dist2.length] = reading_data.dist[1];
+            dist3[dist3.length] = reading_data.dist[2];
+            dist4[dist4.length] = reading_data.dist[3];
+    
+        }
+    
+    
+    	$.getJSON('getCompostReadings?id=1', function(result){
+		result.forEach(collect_data);
+            plotData();
+    	});
+    
+    function plotData()
+    {
+    	var temp1_plot = {
+    	  x: index, 
+    	  y: temp1, 
+    	  type: 'scatter',
+        autoscale : true
+    	};
+    
+    	var temp2_plot = {
+    	  x: index, 
+    	  y: temp2, 
+    	  type: 'scatter',
+            xaxis: 'x2',
+            yaxis: 'y2'
+    	};
+    
+    	var temp3_plot = {
+    	  x: index, 
+    	  y: temp3, 
+    	  type: 'scatter',
+            xaxis: 'x3',
+            yaxis: 'y3'
+    	};
+    
+    	var temp4_plot = {
+    	  x: index, 
+    	  y: temp4, 
+    	  type: 'scatter',
+            xaxis: 'x4',
+            yaxis: 'y4'
+    	};
+    
+    
+    	var humidity1_plot = {
+    	  x: index, 
+    	  y: humidity1, 
+    	  type: 'scatter'
+    	};
+    
+    	var humidity2_plot = {
+    	  x: index, 
+    	  y: humidity2, 
+    	  type: 'scatter',
+            xaxis: 'x2',
+            yaxis: 'y2'
+    	};
+    
+    	var humidity3_plot = {
+    	  x: index, 
+    	  y: humidity3, 
+    	  type: 'scatter',
+            xaxis: 'x3',
+            yaxis: 'y3'
+    	};
+    
+    	var humidity4_plot = {
+    	  x: index, 
+    	  y: humidity4, 
+    	  type: 'scatter',
+            xaxis: 'x4',
+            yaxis: 'y4'
+    	};
+    
+    
+    	var dist1_plot = {
+    	  x: index, 
+    	  y: dist1, 
+    	  type: 'scatter'
+    	};
+    
+    	var dist2_plot = {
+    	  x: index, 
+    	  y: dist2, 
+    	  type: 'scatter',
+            xaxis: 'x2',
+            yaxis: 'y2'
+    	};
+    
+    	var dist3_plot = {
+    	  x: index, 
+    	  y: dist3, 
+    	  type: 'scatter',
+            xaxis: 'x3',
+            yaxis: 'y3'
+    	};
+    
+    	var dist4_plot = {
+    	  x: index, 
+    	  y: dist4, 
+    	  type: 'scatter',
+            xaxis: 'x4',
+            yaxis: 'y4'
+    	};
+    
+            var temp_data = [temp1_plot,temp2_plot,temp3_plot,temp4_plot]
+            var humidity_data = [humidity1_plot,humidity2_plot,humidity3_plot,humidity4_plot]
+            var dist_data = [dist1_plot,dist2_plot,dist3_plot,dist4_plot]
+    
+            var layout = {
+              xaxis: {domain: [0, 0.20]},
+              yaxis2: {anchor: 'x2'},
+              xaxis2: {domain: [0.25, 0.45]},
+              yaxis3: {anchor: 'x3'},
+              xaxis3: {domain: [0.50, 0.70]},
+              yaxis4: {anchor: 'x4'},
+              xaxis4: {domain: [0.75, 1]},
+            };
+    
+    
+    
+            Plotly.newPlot('temp', temp_data,layout);
+            Plotly.newPlot('humidity', humidity_data,layout);
+            Plotly.newPlot('dist', dist_data,layout);
 
     }
 
 
-    	$.getJSON('getCompostReadings?id=1', function(result){
-		result.forEach(collect_data);
-    	});
+    }
+    getData();
+    var t=setInterval(getData,10000);
 
-	var temp1_plot = {
-	  x: index, 
-	  y: temp1, 
-	  type: 'scatter'
-	};
-
-	var temp2_plot = {
-	  x: index, 
-	  y: temp2, 
-	  type: 'scatter',
-        xaxis: 'x2',
-        yaxis: 'y2'
-	};
-
-	var temp3_plot = {
-	  x: index, 
-	  y: temp3, 
-	  type: 'scatter',
-        xaxis: 'x3',
-        yaxis: 'y3'
-	};
-
-	var temp4_plot = {
-	  x: index, 
-	  y: temp4, 
-	  type: 'scatter',
-        xaxis: 'x4',
-        yaxis: 'y4'
-	};
-
-
-	var humidity1_plot = {
-	  x: index, 
-	  y: humidity1, 
-	  type: 'scatter'
-	};
-
-	var humidity2_plot = {
-	  x: index, 
-	  y: humidity2, 
-	  type: 'scatter',
-        xaxis: 'x2',
-        yaxis: 'y2'
-	};
-
-	var humidity3_plot = {
-	  x: index, 
-	  y: humidity3, 
-	  type: 'scatter',
-        xaxis: 'x3',
-        yaxis: 'y3'
-	};
-
-	var humidity4_plot = {
-	  x: index, 
-	  y: humidity4, 
-	  type: 'scatter',
-        xaxis: 'x4',
-        yaxis: 'y4'
-	};
-
-        var temp_data = [temp1_plot,temp2_plot,temp3_plot,temp4_plot]
-        var humidity_data = [humidity1_plot,humidity2_plot,humidity3_plot,humidity4_plot]
-
-        var layout = {
-          xaxis: {domain: [0, 0.20]},
-          yaxis2: {anchor: 'x2'},
-          xaxis2: {domain: [0.25, 0.45]},
-          yaxis3: {anchor: 'x3'},
-          xaxis3: {domain: [0.50, 0.70]},
-          yaxis4: {anchor: 'x4'},
-          xaxis4: {domain: [0.75, 1]},
-        };
-
-
-
-        Plotly.newPlot('temp', temp_data,layout);
-        Plotly.newPlot('humidity', humidity_data,layout);
   </script>
 </body>
 
