@@ -216,10 +216,10 @@ class db_handler():
         self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status) VALUES (%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time.time(),temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status))        
         self.sql_conn.commit()
 
-    def composter_get_last_readings(self,composter_id,count):
+    def composter_get_last_readings(self,composter_id):
         composters = []
-        t = (composter_id,count)
-        self.sql_cursor.execute('SELECT * FROM %s WHERE user_id=? LIMIT ?'%COMPOSTER_READINGS_TBL_NAME, t)
+        t = (composter_id,)
+        self.sql_cursor.execute('SELECT * FROM %s WHERE composter_id=?'%COMPOSTER_READINGS_TBL_NAME, t)
         rows = self.sql_cursor.fetchall()
         
 

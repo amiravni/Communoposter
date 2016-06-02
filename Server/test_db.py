@@ -30,6 +30,7 @@ db_con.insert_composter(myuser['id'],
                          "My composter is the best",
                          1043.12,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
+                         db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())
 
 db_con.insert_composter(yotam_user['id'],
@@ -39,6 +40,7 @@ db_con.insert_composter(yotam_user['id'],
                          "This is yotams composter Dont TOUCH!!",
                          1043.12,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
+                         db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())
 
 db_con.insert_composter(dani_user['id'],
@@ -47,6 +49,7 @@ db_con.insert_composter(dani_user['id'],
                          34.412,
                          "This is yotams composter Dont TOUCH!!",
                          1043.12,
+                         db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          db_api.COMPOSTER_DOOR_STATUS_CLOSED,
                          time.time())
 """
