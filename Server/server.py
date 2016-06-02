@@ -31,6 +31,8 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.getCompostersJson()
         elif parsedParams.path == "/updateComposterReadings":
             self.upadteComposterReadings(queryParsed)
+        elif parsedParams.path == "/shouldOpenDoor":
+            self.shouldOpenDoor(queryParsed)
         else:
            self.showWelcom(queryParsed)
 
@@ -54,6 +56,27 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(composters))
         self.wfile.close()
         
+        
+    def shouldOpenDoor(self,query):
+        try:
+            composter_id = int(query['id'][0])
+            mycomposter = self.my_db_handler.get_composters_by_id(composter_id)  
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write(str(mycomposter['door_status']))
+            self.wfile.close()
+        except:
+            traceback.print_exc(file=sys.stdout)
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html')
+            self.end_headers()
+            
+            self.wfile.write("Error!")
+            self.wfile.close()
+
     def upadteComposterReadings(self,query):
         print query
         try:
