@@ -75,7 +75,11 @@ print 'user %s composters' % myuser['name']
 print "#"*50
 print db_con.get_composters_by_user_id(myuser['id'])
 if mycomposter is not None:
-    db_con.composter_reading_update(mycomposter['id'],random.random()*37,random.random()*100,random.random()*2,0)
+    db_con.composter_reading_update(mycomposter['id'],
+                                    random.random()*37,random.random()*37,random.random()*37,random.random()*37,
+                                    random.random()*100,random.random()*100,random.random()*100,random.random()*100,
+                                    random.random()*100,random.random()*100,random.random()*100,random.random()*100,
+                                    0,0,0)
     db_con.composter_deposit(myuser['id'],mycomposter['id'],0.53)
     db_con.composter_withdraw(myuser['id'],mycomposter['id'],0.06)
 

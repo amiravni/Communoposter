@@ -213,8 +213,7 @@ class db_handler():
         #humidity = (humidity1 + humidity2 + humidity3 + humidity4)
         
         self.update_composter_after_reading(composter_id,weight,up_door_status,down_door_status)
-
-        self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status) VALUES (%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status))        
+        self.sql_cursor.execute('INSERT INTO %s (composter_id,time,temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status) VALUES (%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%d,%d)' % (COMPOSTER_READINGS_TBL_NAME,composter_id,time.time(),temp1,temp2,temp3,temp4,humidity1,humidity2,humidity3,humidity4,dist1,dist2,dist3,dist4,weight,up_door_status,down_door_status))        
         self.sql_conn.commit()
 
     def composter_get_last_readings(self,composter_id,count):

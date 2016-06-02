@@ -4,6 +4,7 @@ import sys
 from db_api import db_handler
 import json
 import traceback
+import random
 
 PORT = int(sys.argv[1])
 
@@ -128,10 +129,32 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         try:
             composter_id = int(query['id'][0])
             temp = float(query['temp'][0])
+            temp1 = temp
+            temp2 = temp + random.random()*2
+            temp3 = temp + random.random()*2
+            temp4 = temp + random.random()*2
+            
             humidity = float(query['humidity'][0])
-            door_status = int(query['door_status'][0])
+            humidity1 = humidity + random.random()*2
+            humidity2 = humidity + random.random()*2
+            humidity3 = humidity + random.random()*2
+            humidity4 = humidity + random.random()*2
+            
+            dist1 =  float(query['dist1'][0])
+            dist2 =  float(query['dist2'][0])
+            dist3 =  float(query['dist3'][0])
+            dist4 =  float(query['dist4'][0])
+            
+            up_door_status = int(query['up_door_status'][0])
+            down_door_status =  int(query['down_door_status'][0])
+            
             weight = float(query['weight'][0])
-            self.my_db_handler.composter_reading_update(composter_id,temp,humidity,door_status,weight)
+            self.my_db_handler.composter_reading_update(composter_id,
+                                                        temp1,temp2,temp3,temp4,
+                                                        humidity1,humidity2,humidity3,humidity4,
+                                                        dist1,dist2,dist3,dist4,
+                                                        0.0
+                                                        up_door_status,down_door_status)
             
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
