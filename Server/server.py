@@ -225,7 +225,8 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.send_header('Content-Type', 'text/html')
         self.end_headers()
        
-        self.wfile.write('<html><head></head><body>Welcome</body></html>')
+        map_html = open('./site/index.html','r').read()
+        self.wfile.write(map_html)
         self.wfile.close()
 
 

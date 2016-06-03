@@ -11,18 +11,31 @@
         padding: 0;
       }
       #map {
-        height: 50%;
+        height: 100%;
+        width: 100%;
       }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
   </head>
   <body>
-    <div id="map"></div>
-    <div id="compost_data"></div>
+
+           <div id="map" style="float: left;"></div> 
+
+            
     <script>
 	var x = document.getElementById("compost_data");
      var current_iw = null;
+
+
+    function loadIframe(iframeName, url) {
+        var $iframe = $('#' + iframeName);
+        if ( $iframe.length ) {
+            $iframe.attr('src',url);   
+            return false;
+        }
+        return true;
+    }
 
 	function getLocation() {
 	    if (navigator.geolocation) {
@@ -64,42 +77,26 @@
                 cur_icon = ready_to_put_image;
             }
 
-/*
-            var image = {
-                url: cur_icon,
-                // This marker is 20 pixels wide by 32 pixels high.
-                size: new google.maps.Size(32, 32),
-                // The origin for this image is (0, 0).
-                origin: new google.maps.Point(0, 0),
-                // The anchor for this image is the base of the flagpole at (0, 32).
-                anchor: new google.maps.Point(0, 32)
-              };
-*/
+
         	var m = new google.maps.Marker({
         	    	position: {lat: composter.lat,lng:composter.lon},
         	    	map: map,
         	    	title: 'Composter',
                 icon: cur_icon
         		});
-        		var constr = '<div id="content"><p>' + composter.description + '</p></dev>'
-        	var iw = new google.maps.InfoWindow({content : constr });
-		m.addListener('click',function() {
+
+                compost_data_html = '<iframe src="plotCompostData?id='+composter.id + '" id="live_data_ '+ composter.id +'" width="600px" height="800px" frameborder="0" ></iframe>';
+
+            	var iw = new google.maps.InfoWindow({content : compost_data_html });
+        		m.addListener('click',function() {
+
                 if (current_iw != null)
                 {
                     current_iw.close();
+
                 }
 			iw.open(map,m);
                 current_iw = iw;
-                compost_data_html = '<div id="compost_info">'
-                compost_data_html += '<div id="description"><b>Description:</b><p>' +  composter.description +' </p></div>'
-                compost_data_html += '<div id="weight"><b>weight:</b><p>' +  composter.weight +' </p></div>'
-                compost_data_html += '<div id="door_status"><b>up door status:</b><p>' +  composter.up_door_status +' </p></div>'
-                compost_data_html += '<div id="door_status"><b>down door status:</b><p>' +  composter.down_door_status +' </p></div>'
-                compost_data_html += '<div id="compost_status"><b>compost status:</b><p>' +  composter.composter_status +' </p></div>'
-		compost_data_html += '<div id="compost_live_data_link"><b><a href=plotCompostData?id='+ composter.id + '>Live view</a></b>'
-                compost_data_html += '</div>'
-
-                $("#compost_data").html(compost_data_html)
 
 		});
 

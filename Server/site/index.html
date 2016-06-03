@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <title>Pet Door</title>
+
+<style>
+/* General Reset */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, hr, button {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:none;
+}
+
+ol, ul {
+	list-style-type:none;
+}
+
+h1, h2, h3, h4, h5, h6, li {
+	line-height:100%;
+}
+
+blockquote, q {
+	quotes:none;
+}
+
+q:before, q:after {
+	content:"";
+}
+
+input, textarea, select {
+	font:12px Arial, Helvetica, sans-serif;
+	vertical-align:middle;
+	padding:0;
+	margin:0;
+}
+
+textarea {
+	overflow:auto;
+	resize:none;
+}
+
+body {
+	margin:0px;
+	padding:0px;
+	font-size:13px;
+	line-height:21px;
+	color:#113e5d;
+	background-color:#9ba0a3;
+	font-family:Arial;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+}
+
+h1 {
+	font-size:33px;
+	margin-bottom:10px;
+}
+
+h2 {
+	font-size:25px;
+	margin-bottom:10px;
+}
+
+h3 {
+	font-size:18px;
+	margin-bottom:10px;
+}
+
+h4 {
+	font-size:16px;
+	margin-bottom:10px;
+}
+
+h5 {
+	font-size:14px;
+	margin-bottom:10px;
+}
+
+h6 {
+	font-size:12px;
+	margin-bottom:10px;
+}
+
+	/*  links
+	******************************/
+	a {color: #1B5219;text-decoration: underline;}
+	a:hover {color: #1B5219;text-decoration: none;}
+
+	/*  superscript and subscript
+	******************************/
+	sup, sub {vertical-align: baseline;position: relative;top: -0.4em;}
+	sub { top: 0.4em; }
+
+	/*  lists
+	******************************/
+	ul, ol {padding:0;margin:0;}
+	ul li {list-style-type:disc;}
+	ol li {list-style-type:decimal;}
+	ul li,
+	ol li {font-size: 12px; line-height: 16px;margin: 0 0 10px 15px;}
+
+	/*  tables
+	******************************/
+	table,th,td {border:1px solid #AAAAAA;}
+	th {padding:3px; font-weight:bold;color:#344b3b;}
+	tr {margin:0 0 5px 0;padding:3px;}
+	td {padding:5px;margin:0 1px;}
+
+	/*  horizontal lines
+	******************************/
+	hr {border-bottom: 1px solid #C1C1CB;margin:5px 0;padding:0;height:2px;width:100%; margin-bottom:15px;}
+
+.clear {
+	clear:both;
+}
+
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+.copyright {
+	border: 0px;
+	height: 1px;
+	width: 1px;
+}
+
+#wrapper {
+	width:1000px;
+	margin:0 auto;
+	padding:20px 0 10px 0;
+}
+
+/*----start header----*/
+#header {
+	padding:0px 0px 5px;
+}
+
+#header .top_banner{
+	background: url(http://i.imgur.com/jrgEMTQ.jpg) no-repeat left -154px;
+	height: 400px;
+	background-size: cover;
+	border: #496066 solid 1px;
+}
+
+#header h1{
+	font-size: 40px;
+	color: #FFFFFF;
+	margin: 6px 0 0 30px;
+	font-weight: bold;
+	padding: 30px 0 0 0;
+	width: 561px;
+}
+
+#header h1 a {
+	color:#000000;
+	text-decoration: none;
+}
+
+#header h1 a:hover {
+	text-decoration: none;
+}
+
+#header p{
+	font-size: 28px;
+	margin: 106px 0 0 353px;
+	color: #220A37;
+	font-weight: bold;
+	width: 117px;
+	border: 3px solid #220A37;
+	border-radius: 66px;
+	padding: 27px;
+	background-color: #EEE0E5;
+}
+/*----end header----*/
+
+
+/*----start page content----*/
+#page_content{
+	background:#EBEEEE;
+	padding:10px;
+}
+
+#page_content .right_section{
+	width:735px;
+	float:right;
+}
+
+#page_content .right_section .top_content{
+	padding:15px 0 0px 0;
+}
+
+#page_content .right_section .top_content .column_one{
+	width:300px;
+	float:left;
+	margin-bottom:20px;
+}
+
+#page_content .right_section .top_content .column_two{
+	width:300px;
+	float:right;
+	margin-bottom:20px;
+}
+
+h2 {
+	width:750px;
+	margin:30px auto;
+    padding: 0px 0px 0px 200px;
+	font-weight: bold;
+}
+
+div#petForm {
+	width: 381px;
+    height: 350px;
+	margin: 0 auto 70px auto;
+	font-size: 50px;
+	border: 2px solid;
+	padding: 30px 25px 173px 153px;
+}
+
+div#petForm .formLine {
+	margin: 10% 25% 10% 10%;
+	padding: 10px 25px 173px 153px;
+}
+
+div#petForm label, form#petForm select {
+	width:100%;
+	margin:5px 0;
+	padding:0;
+}
+
+div#petForm select {
+	line-height:18px;
+	font-size:18px;
+}
+
+div#petForm button {
+	float: right;
+	font-weight: bold;
+	color: #113e5d;
+	text-decoration: underline;
+	border: 2px solid;
+	padding: 15px;
+	border-radius: 30px;
+	background: #E6E8FA;
+	cursor: pointer;
+}
+
+/*----end page content----*/
+
+
+/*----start footer content----*/
+#footer{
+	clear:both;
+	margin-top:18px;
+	padding:15px 0 12px 0;
+	height:25px;
+	text-align:center;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	line-height:19px;
+	border-top:#b9bdbe solid 1px;
+}
+
+/*----end footer content----*/
+</style>
+
+</head>
+<body>
+
+<div id="wrapper">
+  <div id="header">
+    <div class="top_banner">
+      <h1>The <br/> Communopster <br/> Project</h1>
+      <!--<p>Ul!</p>-->
+    </div>
+  </div>
+
+  <div id="page_content">
+    <h2>Hi Danny! Welcome to your personal page</h2>
+    <div id="petForm">
+
+   <!--
+<div class="formLine">
+      <b><label for="doorType">Choose a door:</label></b>
+      <select name="doorType" form="petForm">
+        <option value="bedroom">Bedroom door</option>
+        <option value="study">Study room door</option>
+        <option value="utility">Utility room door</option>
+      </select>
+    </div>
+
+    <div class="formLine">
+      <b><span>Choose your pet:</span></b>
+      <div>
+        <input type="checkbox" name="typeDog" value="Terry - dog"  />
+        <label for="typeDog">Terry - dog</label>
+      </div>
+
+      <div>
+        <input type="checkbox" name="typeCat" value="Ugi - cat"  />
+        <label for="typeCat">Ugi - cat</label>
+      </div>
+    </div>
+
+    <div class="formLine">
+      <b><label for="doorStatus">Choose a door status:</label></b>
+      <select name="doorStatus" form="petForm">
+        <option value="open">Open (pet authorized)</option>
+        <option value="closed">Closed (pet not authorized)</option>
+      </select>
+    </div>
+-->
+    <div class="formLine">
+      <button onclick="window.location.href='plotCompostData?id=1'">My Composter</button>
+    </div>
+
+    <div class="formLine">
+      <button onclick="window.location.href='map'">Find Composter</button>
+    </div>
+
+  </div>
+
+</div>
+</body></html>
