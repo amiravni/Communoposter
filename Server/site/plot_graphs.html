@@ -36,25 +36,25 @@ tr:hover{background-color:#f5f5f5}
     <td><b>Level 1</b></td>
     <td> <div id="temp1" style="width: 150px; height: 150px;"></div></td>
     <td><div id="humidity1" style="width: 150px; height: 150px;"></div></td>
-    <td><div id="fusion1"  style="width: 300px; height: 150px;">Fusion</div></td>
+    <td><div id="fusion1"  style="width: 300px; height: 150px;"><center><h1>Fusion</h1></center></div></td>
   </tr>
   <tr id="level2">
     <td><b>Level 2</b></td>
     <td> <div id="temp2" style="width: 150px; height: 150px;"></div></td>
     <td><div id="humidity2" style="width: 150px; height: 150px;"></div></td>
-    <td><div id="fusion2"  style="width: 300px; height: 150px;">Fusion</div></td>
+    <td>Avg Temp:<div id="avg_temp"  style="width: 300px; height: 150px;"></div></td>
   </tr>
   <tr id="level3">
     <td><b>Level 3</b></td>
     <td> <div id="temp3" style="width: 150px; height: 150px;"></div></td>
     <td><div id="humidity3" style="width: 150px; height: 150px;"></div></td>
-    <td><div id="fusion3"  style="width: 300px; height: 150px;">Fusion</div></td>
+    <td>Avg Humidity:<div id="avg_humidity"  style="width: 300px; height: 150px;"></div></td>
   </tr>
   <tr id="level4">
     <td><b>Level 4</b></td>
     <td> <div id="temp4" style="width: 150px; height: 150px;"></div></td>
     <td><div id="humidity4" style="width: 150px; height: 150px;"></div></td>
-    <td><div id="fusion4"  style="width: 300px; height: 150px;">Fusion</div></td>
+    <td><div id="fusion"  style="width: 300px; height: 150px;">Fusion</div></td>
   </tr>
 </table>
 
@@ -86,6 +86,10 @@ tr:hover{background-color:#f5f5f5}
         var dist3 = [];
         var dist4 = [];
     
+
+        var avg_temp = [];
+        var avg_humidity = [];
+
         function collect_data(reading_data)
         {    
             time[time.length] = reading_data.time;
@@ -95,12 +99,14 @@ tr:hover{background-color:#f5f5f5}
             temp2[temp2.length] = reading_data.temp[1];
             temp3[temp3.length] = reading_data.temp[2];
             temp4[temp4.length] = reading_data.temp[3];
-    
+            avg_temp[avg_temp.length] = (reading_data.temp[0]+reading_data.temp[1] + reading_data.temp[2] + reading_data.temp[3])/4.0;
+
             humidity1[humidity1.length] = reading_data.humidity[0];
             humidity2[humidity2.length] = reading_data.humidity[1];
             humidity3[humidity3.length] = reading_data.humidity[2];
             humidity4[humidity4.length] = reading_data.humidity[3];
-    
+            avg_humidity[avg_humidity.length]  = (reading_data.humidity[0],reading_data.humidity[1] + reading_data.humidity[2] +reading_data.humidity[3])/4.0; 
+
             dist1[dist1.length] = reading_data.dist[0];
             dist2[dist2.length] = reading_data.dist[1];
             dist3[dist3.length] = reading_data.dist[2];
@@ -114,12 +120,20 @@ tr:hover{background-color:#f5f5f5}
             plotData();
     	});
     
+    function bool_to_image(bool_val){
+        if (bool_val == true){
+            return '<img src="http://findicons.com/files/icons/1890/my_toolbar/32/check.png">';
+        } else {
+            return '<img src="http://icons.iconarchive.com/icons/custom-icon-design/office/32/delete-icon.png">';
+        }
+    }
+
     function fusion_to_html(fusion_data)
     {
-        content = "<div>is Optimal Temp: "+fusion_data.optimal_temp.toString()+"</div>";
-        content += "<div>need to turn high temp: "+fusion_data.need_to_turn_high_temp.toString()+"</div>";
-        content += "<div>need to wet low humidity: "+fusion_data.need_to_wet_low_humidity.toString()+"</div>";
-        content += "<div>need to wet high humidity: "+fusion_data.need_to_turn_high_humidity.toString()+"</div>";
+        content = "<div>Optimal Temp : "+bool_to_image(fusion_data.optimal_temp)+"</div>";
+        content += "<div>Do I need to turn high temp: "+bool_to_image(fusion_data.need_to_turn_high_temp)+"</div>";
+        content += "<div>Do I need to wet low humidity: "+bool_to_image(fusion_data.need_to_wet_low_humidity)+"</div>";
+        content += "<div>Do I need to wet high humidity: "+bool_to_image(fusion_data.need_to_turn_high_humidity)+"</div>";
         return content;
     }
 
@@ -152,6 +166,12 @@ tr:hover{background-color:#f5f5f5}
 
     	};
     
+      var avg_temp_plot = {
+    	  x: index, 
+    	  y: avg_temp, 
+    	  type: 'scatter',
+
+    	};
     
     	var humidity1_plot = {
     	  x: index, 
@@ -178,6 +198,11 @@ tr:hover{background-color:#f5f5f5}
     	  type: 'scatter',
     	};
     
+     var avg_humidity_plot = {
+    	  x: index, 
+    	  y: avg_humidity, 
+    	  type: 'scatter',
+    }
     
         var single_red_layout = {
           autosize: false,
@@ -210,28 +235,7 @@ tr:hover{background-color:#f5f5f5}
 
             var flag = false;
 
-            var fusion_1 = {
-                optimal_temp: false,
-                need_to_turn_high_temp: false,
-                need_to_wet_low_humidity: false,
-                need_to_turn_high_humidity: false
-            }
-
-            var fusion_2 = {
-                optimal_temp: false,
-                need_to_turn_high_temp: false,
-                need_to_wet_low_humidity: false,
-                need_to_turn_high_humidity: false
-            }
-
-            var fusion_3 = {
-                optimal_temp: false,
-                need_to_turn_high_temp: false,
-                need_to_wet_low_humidity: false,
-                need_to_turn_high_humidity: false
-            }
-
-            var fusion_4 = {
+            var fusion = {
                 optimal_temp: false,
                 need_to_turn_high_temp: false,
                 need_to_wet_low_humidity: false,
@@ -248,21 +252,6 @@ tr:hover{background-color:#f5f5f5}
                 Plotly.newPlot('temp1', [temp1_plot],single_green_layout);
                 Plotly.newPlot('humidity1', [humidity1_plot],single_green_layout);
 
-                if (temp1[temp1.length -1] > 55 && temp1[temp1.length -1] < 65){
-                    fusion_1.optimal_temp = true
-                }
-                if (temp1[temp1.length -1] > 65){
-                    fusion_1.need_to_turn_high_temp = true
-                }
-
-                if (humidity1[humidity1.length-1] < 40){
-                    fusion_1.need_to_wet_low_humidity = true
-                }
-
-                if (humidity1[humidity1.length-1] > 60){
-                    fusion_1.need_to_turn_high_humidity = true
-                }
-                $('#fusion1').html(fusion_to_html(fusion_1));
                 flag = true;
             }
 
@@ -275,22 +264,6 @@ tr:hover{background-color:#f5f5f5}
                 $('#level2').css('background-color','#ffffff')
                 Plotly.newPlot('temp2', [temp2_plot],single_green_layout);
                 Plotly.newPlot('humidity2', [humidity2_plot],single_green_layout);
-
-                if (temp2[temp2.length -1] > 55 && temp2[temp2.length -1] < 65){
-                    fusion_2.optimal_temp = true
-                }
-                if (temp2[temp1.length -1] > 65){
-                    fusion_2.need_to_turn_high_temp = true
-                }
-
-                if (humidity2[humidity2.length-1] < 40){
-                    fusion_2.need_to_wet_low_humidity = true
-                }
-
-                if (humidity2[humidity2.length-1] > 60){
-                    fusion_2.need_to_turn_high_humidity = true
-                }
-                $('#fusion2').html(fusion_to_html(fusion_2));
 
                 flag = true;
 
@@ -306,22 +279,6 @@ tr:hover{background-color:#f5f5f5}
                 Plotly.newPlot('temp3', [temp3_plot],single_green_layout);
                 Plotly.newPlot('humidity3', [humidity3_plot],single_green_layout);
 
-                if (temp3[temp3.length -1] > 55 && temp3[temp3.length -1] < 65){
-                    fusion_3.optimal_temp = true
-                }
-                if (temp3[temp1.length -1] > 65){
-                    fusion_3.need_to_turn_high_temp = true
-                }
-
-                if (humidity3[humidity3.length-1] < 40){
-                    fusion_3.need_to_wet_low_humidity = true
-                }
-
-                if (humidity3[humidity3.length-1] > 60){
-                    fusion_3.need_to_turn_high_humidity = true
-                }
-                $('#fusion3').html(fusion_to_html(fusion_3));
-
                 flag = true;
 
             }
@@ -336,25 +293,37 @@ tr:hover{background-color:#f5f5f5}
                 Plotly.newPlot('temp4', [temp4_plot],single_green_layout);
                 Plotly.newPlot('humidity4', [humidity4_plot],single_green_layout);
 
-                if (temp4[temp4.length -1] > 55 && temp4[temp4.length -1] < 65){
-                    fusion_4.optimal_temp = true
-                }
-                if (temp4[temp4.length -1] > 65){
-                    fusion_4.need_to_turn_high_temp = true
-                }
 
-                if (humidity4[humidity4.length-1] < 40){
-                    fusion_4.need_to_wet_low_humidity = true
-                }
-
-                if (humidity4[humidity4.length-1] > 60){
-                    fusion_4.need_to_turn_high_humidity = true
-                }
-                $('#fusion4').html(fusion_to_html(fusion_4));
 
                 flag = true;
 
             }
+
+            var fusion = {
+                optimal_temp: false,
+                need_to_turn_high_temp: false,
+                need_to_wet_low_humidity: false,
+                need_to_turn_high_humidity: false
+            }
+
+            if (avg_temp[avg_temp.length -1] > 55 && avg_temp[avg_temp.length -1] < 65){
+                fusion.optimal_temp = true
+            }
+            if (avg_temp[avg_temp.length -1] > 65){
+                fusion.need_to_turn_high_temp = true
+            }
+
+            if (avg_humidity[avg_humidity.length-1] < 40){
+                fusion.need_to_wet_low_humidity = true
+            }
+
+            if (avg_humidity[avg_humidity.length-1] > 60){
+                fusion.need_to_turn_high_humidity = true
+            }
+            $('#fusion').html(fusion_to_html(fusion));
+
+            Plotly.newPlot('avg_temp', [avg_temp_plot],single_green_layout);
+            Plotly.newPlot('avg_humidity', [avg_humidity_plot],single_green_layout);
     }
 
 
